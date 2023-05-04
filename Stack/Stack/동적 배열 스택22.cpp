@@ -36,8 +36,7 @@ int is_full(ArrayStack* s) {
 
 void push(ArrayStack* s, int item) {
 	if (is_full(s)) {
-		fprintf(stderr, "스택 포화 에러\n");
-		return;
+		S->array = (int*)malloc(S->capacity * 2 * sizeof(int));
 	}
 	else s->array[++(s->top)] = item;
 }
@@ -61,8 +60,7 @@ int peek(ArrayStack* S)
 }
 void deleteStack(ArrayStack* S) {
 	if (S) {
-		if (S->array)
-			free(S->array);
+		if (S->array) free(S->array);
 		free(S);
 	}
 }
