@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include<time.h>
 
-#define MAX_STACK_SIZE 100
+#define MAX_STACK_SIZE 2 //임시로 최대 크기 2로 수정
 
 typedef struct {
 	int top;// top이자 현재 스택의 크기
@@ -36,9 +36,13 @@ int is_full(ArrayStack* s) {
 
 void push(ArrayStack* s, int item) {
 	if (is_full(s)) {
-		S->array = (int*)malloc(S->capacity * 2 * sizeof(int));
+		s->capacity *= 2;
+		s->array = (int*)realloc(s->array, s->capacity * sizeof(int));
+		printf("Let's extend the array by double\n");
+		printf("size of array: %d\n", s->capacity);
 	}
-	else s->array[++(s->top)] = item;
+	printf("push: %d\n", item);
+	s->array[++(s->top)] = item;
 }
 
 int pop(ArrayStack* s) {
@@ -70,20 +74,22 @@ int Stacksize(ArrayStack* S) {
 		fprintf(stderr, "스택 공백 에러\n");
 		return -1;
 	}
-	return S->top;
+	return S->top + 1;
 }
 
 int main(void) {
 	ArrayStack* mys;
 	mys = createStack();
-	for (int i = 0; i < 5; i++) {
+	for (int i = 1; i <= 10; i++) {
 		push(mys, i);
 	}
 	printf("TOP에 있는 데이터: %d\n", peek(mys));
-	for (int j = 0; j < 5; j++) {
+	printf("Stack Size: %d\n", Stacksize(mys));
+	/*
+	for (int j = 1; j <= 10; j++) {
 		int tmp = pop(mys);
 		printf("POP: %d\n", tmp);
-	}
+	}*/
 	deleteStack(mys);
 	return 0;
 
