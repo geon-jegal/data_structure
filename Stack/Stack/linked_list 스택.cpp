@@ -1,20 +1,20 @@
-/*#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 
-* top, size, full, empty, swap, printf
-*/
-/*
+//top, size, full, empty, swap, printf
+
+
 #define max_size 100
 
-typedef struct ListStack{
+typedef struct ListStack {
     int data;
     struct ListStack* under;
 } Stack;
 
-bool IsEmptyStack(Stack* Top){
+bool IsEmptyStack(Stack* Top) {
     if (Top == NULL) {
         printf("Stack is Empty\n");
         return true;
@@ -25,7 +25,7 @@ bool IsEmptyStack(Stack* Top){
 bool isFullStack(Stack* Top) {
     int size = 0;
     if (Top == NULL) return false;
-    while (Top != NULL && size <= max_size){
+    while (Top != NULL && size <= max_size) {
         size++;
         Top = Top->under;
     }
@@ -39,8 +39,8 @@ bool isFullStack(Stack* Top) {
 void printStack(Stack* Top) {
     if (IsEmptyStack(Top)) return;
 
-    printf("\nTOP\n");
-    do{
+    printf("TOP\n");
+    do {
         printf("|%d|\n", Top->data);
         Top = Top->under;
     } while (Top != NULL);
@@ -48,7 +48,7 @@ void printStack(Stack* Top) {
     if (isFullStack(Top)) return;
 }
 
-void push(Stack** Top, int data){
+void push(Stack** Top, int data) {
     Stack* newNode = NULL;
 
     newNode = (Stack*)malloc(sizeof(Stack));
@@ -61,7 +61,7 @@ void push(Stack** Top, int data){
     printf("%d pushed to stack\n", data);
 }
 
-int pop(Stack** Top){
+int pop(Stack** Top) {
     Stack* temp = NULL;
     int data = 0;
     if (IsEmptyStack(*Top)) return INT_MIN;
@@ -70,13 +70,14 @@ int pop(Stack** Top){
         temp = *Top;
         *Top = temp->under;
         data = temp->data;
-        free(temp);
+        free(temp); // 노드 제거
     }
     return data;
 }
 
 void Top(Stack* Top) {//peek함수
     printf("\ntop: %d\n", Top->data);
+    //return Top->data;
 }
 
 int size(Stack* Top) {
@@ -97,15 +98,16 @@ int main(void)
         push(&S, i * 10);
     }
 
-    printf("\n%d poped from stack\n", pop(&S));
+    printf("\n");
+    printf("%d poped from stack\n", pop(&S));
     printStack(S);
-    
+
     Top(S);
 
-    printf("\nsize: %d\n", size(S));
+    printf("size: %d\n\n", size(S));
 
     printStack(S);
 
 
     return 0;
-}*/
+}
