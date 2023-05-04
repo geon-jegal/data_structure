@@ -7,9 +7,9 @@
 #define MAX_STACK_SIZE 100
 
 typedef struct {
-	int top;
+	int top;// top이자 현재 스택의 크기
 	int* array; // array는 실질적인 스택을 구현한다.
-	int capacity; //현재 스택의 전체 크기 size
+	int capacity; //스택의 전체 크기, size
 }ArrayStack;
 
 ArrayStack* createStack() {
@@ -57,7 +57,7 @@ int peek(ArrayStack* S)
 		fprintf(stderr, "Stack is Empty\n");
 		exit(1);
 	}
-	else return S->array[S->top];
+	else return S->array[S->top]; //top에 있는 값 출력
 }
 void deleteStack(ArrayStack* S) {
 	if (S) {
@@ -67,16 +67,24 @@ void deleteStack(ArrayStack* S) {
 	}
 }
 
+int Stacksize(ArrayStack* S) {
+	if (is_empty(S)) {
+		fprintf(stderr, "스택 공백 에러\n");
+		return -1;
+	}
+	return S->top;
+}
+
 int main(void) {
 	ArrayStack* mys;
 	mys = createStack();
 	for (int i = 0; i < 5; i++) {
 		push(mys, i);
 	}
-	printf("%d\n", peek(mys));
+	printf("TOP에 있는 데이터: %d\n", peek(mys));
 	for (int j = 0; j < 5; j++) {
 		int tmp = pop(mys);
-		printf("%d\n", tmp);
+		printf("POP: %d\n", tmp);
 	}
 	deleteStack(mys);
 	return 0;
