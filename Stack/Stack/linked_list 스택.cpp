@@ -92,7 +92,7 @@ int size(Stack* Top) {
 
 int main(void)
 {
-    Stack* S = NULL;
+    Stack* S = NULL;    
 
     for (int i = 0; i < 9; i++) {
         push(&S, i * 10);
