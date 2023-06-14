@@ -87,14 +87,6 @@ void print_list(ListNode* head) {
 	// for (ListNode* p = head; p->data == item; p = p->link) // 데이터를 입력받는 경우
 }
 
-bool is_empty(ListNode* head) {
-	return 1;
-}
-
-bool is_full(ListNode* head) {
-	return 0;
-}
-
 int main() {
 	ListNode* head = NULL;
 
