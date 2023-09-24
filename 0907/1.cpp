@@ -23,6 +23,23 @@ QueueType* Queue(int size) {
 	return Q;
 }
 
+// 출력함수
+/*
+void print_Queue(QueueType* Q) {
+	if (isEmpty(Q)) {
+		printf("Queue is empty\n");
+		return;
+	}
+
+	int i = Q->front;
+	do {
+		printf("%d | ", Q->array[i]);
+		i = (i + 1) % Q->capacity;
+	} while (i != (Q->rear + 1) % Q->capacity);
+	printf("\n");
+}*/
+
+
 //출력함수
 void print_Queue(QueueType* Q) {
 	for (int i = Q->front; i != (Q->rear + 1) % Q->capacity; i = (i + 1) % Q->capacity) printf("%d	|	", Q->array[i]);
