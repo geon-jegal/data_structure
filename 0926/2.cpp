@@ -40,7 +40,7 @@ TreeNode* search(TreeNode* root, element key) {
 		else if (compare(key, p->key) < 0) p = p->left;
 		else if (compare(key, p->key) > 0) p = p->right;
 	}
-	return p; // Å½»ö¿¡ ½ÇÆÐÇßÀ» °æ¿ì NULL ¹ÝÈ¯
+	return p; // íƒìƒ‰ì— ì‹¤íŒ¨í–ˆì„ ê²½ìš° NULL ë°˜í™˜
 }
 
 TreeNode* new_node(element item) {
@@ -51,40 +51,40 @@ TreeNode* new_node(element item) {
 }
 
 TreeNode* insert_node(TreeNode* node, element key) {
-	//Æ®¸®°¡ °ø¹éÀÌ¸é »õ·Î¿î ³ëµå¸¦ ¹ÝÈ¯ÇÑ´Ù.
+	//íŠ¸ë¦¬ê°€ ê³µë°±ì´ë©´ ìƒˆë¡œìš´ ë…¸ë“œë¥¼ ë°˜í™˜í•œë‹¤.
 	if (node == NULL) return newNode(key);
 
-	// ±×·¸Áö ¾ÊÀ¸¸é ¼øÈ¯ÀûÀ¸·Î Æ®¸®¸¦ ³»·Á°£´Ù
+	// ê·¸ë ‡ì§€ ì•Šìœ¼ë©´ ìˆœí™˜ì ìœ¼ë¡œ íŠ¸ë¦¬ë¥¼ ë‚´ë ¤ê°„ë‹¤
 	if (compare(key, node->key) < 0) node->left = insert_node(node->left, key);
 	else if (compare(key, node->key) > 0) node->right = insert_node(node->right, key);
 
-	// º¯È¯µÈ ·çÆ® Æ÷ÀÎÅÍ¸¦ ¹ÝÈ¯
+	// ë³€í™˜ëœ ë£¨íŠ¸ í¬ì¸í„°ë¥¼ ë°˜í™˜
 	return node;
 }
 
 BSTNode* min_value_node(BSTNode* node) {
 	BSTNode* current = node;
 
-	//¸Ç ¿ÞÂÊ ´Ü¸» ³ëµå¸¦ Ã£À¸·¯ ³»·Á°¨
+	//ë§¨ ì™¼ìª½ ë‹¨ë§ ë…¸ë“œë¥¼ ì°¾ìœ¼ëŸ¬ ë‚´ë ¤ê°
 	while (current->left != NULL) current = current->left;
 
 	return current;
 }
 
-//ÀÌÁø Å½»ö Æ®¸®¿Í Å°°¡ ÁÖ¾îÁö¸é Å°°¡ ÀúÀåµÈ ³ëµå¸¦ »èÁ¦ÇÏ°í
-// »õ·Î¿î ·çÆ® ³ëµå¸¦ ¹ÝÈ¯ÇÑ´Ù.
+//ì´ì§„ íƒìƒ‰ íŠ¸ë¦¬ì™€ í‚¤ê°€ ì£¼ì–´ì§€ë©´ í‚¤ê°€ ì €ìž¥ëœ ë…¸ë“œë¥¼ ì‚­ì œí•˜ê³ 
+// ìƒˆë¡œìš´ ë£¨íŠ¸ ë…¸ë“œë¥¼ ë°˜í™˜í•œë‹¤.
 BSTNode* delete_node(BSTNode* root, element key) {
 	if (root == NULL) return root;
 
-	// ¸¸¾à Å°°¡ ·çÆ®º¸´Ù ÀÛÀ¸¸é ¿ÞÂÊ ¼­ºê Æ®¸®·Î ÀÌµ¿
+	// ë§Œì•½ í‚¤ê°€ ë£¨íŠ¸ë³´ë‹¤ ìž‘ìœ¼ë©´ ì™¼ìª½ ì„œë¸Œ íŠ¸ë¦¬ë¡œ ì´ë™
 	if (key < root->data)
 		root->left = delete_node(root->left, key);
 
-	// ¸¸¾à Å°°¡ ·çÆ®º¸´Ù Å©¸é ¿À¸¥ÂÊ ¼­ºê Æ®¸®·Î ÀÌµ¿
+	// ë§Œì•½ í‚¤ê°€ ë£¨íŠ¸ë³´ë‹¤ í¬ë©´ ì˜¤ë¥¸ìª½ ì„œë¸Œ íŠ¸ë¦¬ë¡œ ì´ë™
 	if (key < root->data)
 		root->right = delete_node(root->right, key);
 	else {
-		// Ã¹ ¹øÂ°³ª µÎ ¹øÂ° °æ¿ì
+		// ì²« ë²ˆì§¸ë‚˜ ë‘ ë²ˆì§¸ ê²½ìš°
 		if (root->left == NULL) {
 			BSTNode* temp = root->right;
 			free(root);
@@ -95,10 +95,10 @@ BSTNode* delete_node(BSTNode* root, element key) {
 			free(root);
 			return temp;
 		}
-		//¼¼ ¹øÂ° °æ¿ì
+		//ì„¸ ë²ˆì§¸ ê²½ìš°
 		BSTNode* temp = min_value_node(root->right);
 
-		//Áß¿Ü ¼øÈ¸½Ã ÈÄ°è ³ëµå¸¦ º¹»çÇÑ´Ù
+		//ì¤‘ì™¸ ìˆœíšŒì‹œ í›„ê³„ ë…¸ë“œë¥¼ ë³µì‚¬í•œë‹¤
 		root->data = temp->data;
 		root->right = delete_node(root->right, temp->data);
 	}
@@ -106,5 +106,5 @@ BSTNode* delete_node(BSTNode* root, element key) {
 }
 
 void help() {
-	printf("\n **** i: ÀÔ·Â, d: »èÁ¦, s: Å½»ö , p: Ãâ·Â, q: Á¹·á ****");
+	printf("\n **** i: ìž…ë ¥, d: ì‚­ì œ, s: íƒìƒ‰ , p: ì¶œë ¥, q: ì¢…ë£Œ ****");
 }
