@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -10,25 +8,31 @@ typedef struct BSTNode {
 	struct BSTNode* left, * right;
 } BSTNode;
 
-BSTNode* CreateNode(int data)
-{
+// 새로운 노드를 생성하고 초기화합니다.
+BSTNode* CreateNode(int data) {
 	BSTNode* newNode = (BSTNode*)malloc(sizeof(BSTNode));
+	if (newNode == NULL) {
+		printf("메모리 오류");
+		exit(1);
+	}
 	newNode->left = NULL;
 	newNode->right = NULL;
 	newNode->data = data;
 	return newNode;
 }
 
+// 부모 노드와 좌우 자식 노드를 설정합니다.
 void MakeTree(BSTNode* parent, BSTNode* lson, BSTNode* rson)
 {
 	parent->left = lson;
 	parent->right = rson;
 }
 
+// 새로운 노드를 생성하고 초기화합니다.
 BSTNode* newNode(int item) {
 	BSTNode* newNode = (BSTNode*)malloc(sizeof(BSTNode));
 	if (newNode == NULL) {
-		printf("Memory Error");
+		printf("메모리 오류");
 		exit(1);
 	}
 	newNode->data = item;
@@ -62,13 +66,6 @@ BSTNode* min_value_node(BSTNode* node) {
 	return current;
 }
 
-void post_delete_process(BSTNode* deletedNode) {
-	// 여기에 후처리 코드를 작성합니다.
-	// 예: 삭제된 노드의 메모리를 해제하는 등의 작업을 수행할 수 있습니다.
-	free(deletedNode);
-}
-
-
 //이진 탐색 트리와 키가 주어지면 키가 저장된 노드를 삭제하고
 // 새로운 루트 노드를 반환한다.
 BSTNode* delete_node(BSTNode* root, int key) {
@@ -83,12 +80,12 @@ BSTNode* delete_node(BSTNode* root, int key) {
 	else {
 		if (root->left == NULL) {
 			BSTNode* temp = root->right;
-			post_delete_process(root); // 삭제 후처리 함수 호출
+			free(root); // 삭제 후처리
 			return temp;
 		}
 		else if (root->right == NULL) {
 			BSTNode* temp = root->left;
-			post_delete_process(root); // 삭제 후처리 함수 호출
+			free(root); // 삭제 후처리
 			return temp;
 		}
 
@@ -117,29 +114,34 @@ BSTNode* search(BSTNode* node, int key) {
 		return search(node->right, key); // (3)
 }
 
-// 반복적인 탐색 함수
-BSTNode* search_Iter(BSTNode* node, int key) {
-	while (node != NULL) {
-		if (key == node->data) return node;
-		else if (key < node->data)
-			node = node->left;
-		else
-			node = node->right;
+int search_count_recursive(BSTNode* node, int key, int count) {
+	if (node == NULL) {
+		return count; // 데이터를 찾지 못한 경우 현재까지의 탐색 횟수 반환
 	}
-	printf("데이터를 검색하지 못 하였습니다.\n");
-	return NULL; // 탐색에 실패했을 경우 NULL 반환
+
+	count++;
+
+	if (key == node->data) {
+		return count;
+	}
+	else if (key < node->data) {
+		return search_count_recursive(node->left, key, count);
+	}
+	else {
+		return search_count_recursive(node->right, key, count);
+	}
 }
 
 // 반복적인 탐색 함수
-int search_Iter_level(BSTNode* node, int key) {
+BSTNode* search_Iter(BSTNode* node, int key) {
 	int level = 0;
 	while (node != NULL) {
 		if (key == node->data) {
 			level++;
-			return level;
+			printf("\n트리의 검색 횟수(iter) : %d\n", level);
+			return node;
 		}
-		else if (key < node->data)
-		{
+		else if (key < node->data) {
 			node = node->left;
 			level++;
 		}
@@ -148,7 +150,9 @@ int search_Iter_level(BSTNode* node, int key) {
 			level++;
 		}
 	}
-	return level; // 탐색에 실패했을 경우 NULL 반환
+	printf("데이터를 검색하지 못 하였습니다.\n");
+	printf("트리의 검색 횟수(iter) : %d\n", level);
+	return NULL; // 탐색에 실패했을 경우 NULL 반환
 }
 
 BSTNode* FindMin(BSTNode* node) {
@@ -198,18 +202,15 @@ int is_full(QueueType* Q) {
 }
 
 void enqueue(QueueType* Q, element node) {
-	// if (is_full(Q)) printf("큐가 포화상태입니다");
-
 	Q->rear = (Q->rear + 1) % MAX_QUEUE_SIZE;
 	Q->data[Q->rear] = node;
 }
 
 element dequeue(QueueType* Q) {
-	//  (is_empty) printf("큐가 공백상태입니다");
-
 	Q->front = (Q->front + 1) % MAX_QUEUE_SIZE;
 	return Q->data[Q->front];
 }
+
 
 void level_order(BSTNode* ptr) {
 	QueueType q;
@@ -258,29 +259,6 @@ int tree_depth(BSTNode* node) {
 	return 1 + (left_depth > right_depth ? left_depth : right_depth);
 }
 
-// 트리 출력 함수(gpt)
-void print_tree(BSTNode* root) {
-	if (root == NULL) return;
-
-	QueueType q;
-	init_queue(&q);
-
-	enqueue(&q, root);
-	while (!is_empty(&q)) {
-		int level_size = q.rear - q.front + 1;
-
-		for (int i = 0; i < level_size; i++) {
-			BSTNode* node = dequeue(&q);
-			if (node) {
-				printf("%d ", node->data);
-				if (node->left) enqueue(&q, node->left);
-				if (node->right) enqueue(&q, node->right);
-			}
-		}
-		printf("\n");
-	}
-}
-
 int main(void) {
 
 	srand((unsigned int)time(NULL)); //seed값으로 현재시간 부여
@@ -289,16 +267,12 @@ int main(void) {
 
 	root_randBST = randomTree_BST(50);
 
-	printf("트리\n");
-	print_tree(root_randBST);
-
-	printf("level order\n");
+	printf("\nlevel order\n");
 	level_order(root_randBST);
-	printf("\n");
 
 	int deep = tree_depth(root_randBST);
 
-	printf("트리의 깊이: %d\n", deep);
+	printf("\n트리의 깊이: %d\n", deep + 1);
 
 	int key = rand() % 2000;
 
@@ -307,11 +281,10 @@ int main(void) {
 	printf("검색하려는 값 : %d\n", key);
 
 	search_node = search_Iter(root_randBST, key);
+
 	search_node = search(root_randBST, key);
-	int count = 0;
-	count = search_Iter_level(root_randBST, key);
-
-	printf("트리의 검색 횟수 : %d\n", count);
-
+	int count2 = 0;
+	count2 = search_count_recursive(root_randBST, key, count2);
+	printf("트리의 검색 횟수(recursion) : %d\n", count2);
 	return 0;
 }
