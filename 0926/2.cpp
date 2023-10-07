@@ -106,5 +106,5 @@ BSTNode* delete_node(BSTNode* root, element key) {
 }
 
 void help() {
-	printf("\n **** i: 입력, d: 삭제, s: 탐색 , p: 출력, q: 졸료 ****");
+	printf("\n **** i: 입력, d: 삭제, s: 탐색 , p: 출력, q: 종료 ****");
 }
