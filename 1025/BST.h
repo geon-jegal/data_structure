@@ -26,7 +26,7 @@ BSTNode* insert_node(BSTNode* root, int key) {
 	if (root == NULL) return NewNode(key);
 
 	if (root->data == key) { // 데이터가 중복일 경우
-		printf("중복된 데이터입니다.\n");
+		//printf("중복된 데이터입니다.\n");
 		return root;
 	}
 

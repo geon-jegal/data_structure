@@ -7,6 +7,7 @@
 #include "BST.h"
 
 void Linear() {
+	srand(time(NULL));
 	//Linear Insert and Search
 	int Linear_size = 500000, random;
 	printf("Linear Insert and Search(100번 반복) : \n");
@@ -16,7 +17,7 @@ void Linear() {
 		// insert 시작
 		clock_t insert_start = clock();
 		for (int i = 0; i < Linear_size; i++) {
-			random = rand() * rand() % Linear_size;
+			random = (rand() * rand()) % Linear_size;
 			// insert
 			Linear[i] = random;
 		}
@@ -53,24 +54,27 @@ void Linear() {
 }
 
 void BST() {
+	srand(time(NULL));
 	//BST Insert and Search
 	int BST_size = 500000, random;
 	printf("BST Insert and Search(100000번 반복) : \n");
 	printf("		    [Insert]	   [Search]\n");
-	random = rand() * rand() % BST_size;
+	random = (rand() * rand()) % BST_size;
 	BSTNode* root = NewNode(random);
 	while (BST_size <= 10000000) {
 		// insert 시작
 		clock_t insert_start = clock();
 		for (int i = 1; i < BST_size; i++) {
-			random = rand() * rand() % BST_size;
+			random = (rand() * rand()) % BST_size;
 			// insert
-			root = NewNode(random);
+			root = insert_node(root, random);
 		}
 		// insert 종료
 		clock_t insert_end = clock();
 		// insert 시간
 		double insert = (double)(insert_end - insert_start) / CLOCKS_PER_SEC;
+
+		BSTNode* node;
 
 		// search 시간
 		double t = 0;
@@ -80,11 +84,12 @@ void BST() {
 
 			int searchNum = rand() * rand() % BST_size;
 
-			root = search(root, searchNum);
+			node = search(root, searchNum);
 			// search 완료
 			clock_t search_end = clock();
 			t += (double)(search_end - search_start) / CLOCKS_PER_SEC;
 		}
+
 		// search 시간 평균
 		double search = t / 100000;
 
@@ -93,6 +98,7 @@ void BST() {
 
 		//free
 		DeleteTree(root);
+		root = NULL;
 
 		BST_size += 500000;
 	}
@@ -100,17 +106,18 @@ void BST() {
 
 
 void AVL() {
+	srand(time(NULL));
 	//AVL Insert and Search
 	int AVL_size = 500000, random;
 	printf("AVL Insert and Search(100000번 반복) : \n");
 	printf("	   	    [Insert]	   [Search]\n");
-	random = rand() * rand() % AVL_size;
+	random = (rand() * rand()) % AVL_size;
 	AVLTreeNode* root = newNode(random);
 	while (AVL_size <= 10000000) {
 		// insert 시작
 		clock_t insert_start = clock();
-		for (int i = 0; i < AVL_size; i++) {
-			random = rand() * rand() % AVL_size;
+		for (int i = 1; i < AVL_size; i++) {
+			random = (rand() * rand()) % AVL_size;
 			// insert
 			root = insert_node(root, random);
 		}
@@ -118,6 +125,8 @@ void AVL() {
 		clock_t insert_end = clock();
 		// insert 시간
 		double insert = (double)(insert_end - insert_start) / CLOCKS_PER_SEC;
+
+		AVLTreeNode* node;
 
 		// search 시간
 		double t = 0;
@@ -127,11 +136,12 @@ void AVL() {
 
 			int searchNum = rand() * rand() % AVL_size;
 
-			root = search(root, searchNum);
+			node = search(root, searchNum);
 			// search 완료
 			clock_t search_end = clock();
 			t += (double)(search_end - search_start) / CLOCKS_PER_SEC;
 		}
+
 		// search 시간 평균
 		double search = t / 100000;
 
@@ -139,16 +149,14 @@ void AVL() {
 		printf("%8d\t%12.8lf\t%12.8lf\n", AVL_size, insert, search);
 
 		//free
-		delete_all_nodes(root);
-
+		DeleteTree(root);
+		root = NULL;
 
 		AVL_size += 500000;
 	}
 }
 
 int main(void) {
-
-	srand(time(NULL));
 
 	Linear();
 

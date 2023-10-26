@@ -112,11 +112,11 @@ AVLTreeNode* search(AVLTreeNode* node, int key) {
 		return search(node->right, key); // (3)
 }
 
-void delete_all_nodes(AVLTreeNode* root) {
+void DeleteTree(AVLTreeNode* root) {
 	if (root == NULL) return;
 
-	delete_all_nodes(root->left);
-	delete_all_nodes(root->right);
+	DeleteTree(root->left);
+	DeleteTree(root->right);
 
 	free(root);
 }
