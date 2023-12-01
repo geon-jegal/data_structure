@@ -110,9 +110,9 @@ void dfs_list(GraphType* g, int v) {
 	GraphNode* w;
 	visited[v] = true;
 	printf("Á¤Á¡ %d -> ", v);
-	for (w = g->adj_list[v]; w; w = ->link)
+	for (w = g->adj_list[v]; w; w = w->link)
 		if (!visited[w->vertex])
-			dfe_list(g, w->vertex);
+			dfs_list(g, w->vertex);
 }
 
 void bfs_list(GraphType* g, int v) {
