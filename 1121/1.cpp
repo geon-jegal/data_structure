@@ -87,7 +87,7 @@ void sorted_Linear() {
 
     //printf("\n%d\n", sizeof(Linear) / sizeof(int));
 
-    // sort
+    // sort(버블정렬)
     for (int i = 0; i < Linear_size - 1; i++) {
         for (int j = 0; j < Linear_size - i - 1; j++) {
             if (Linear[j] > Linear[j + 1]) {

@@ -9,7 +9,7 @@
 void Linear() {
 	srand(time(NULL));
 	//Linear Insert and Search
-	int Linear_size = 500000, random;
+	int Linear_size = 5000, random;
 	printf("Linear Insert and Search(100¹ø ¹Ýº¹) : \n");
 	printf("		    [Insert]	   [Search]\n");
 	while (Linear_size <= 10000000) {
