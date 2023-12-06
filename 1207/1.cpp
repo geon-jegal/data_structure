@@ -295,6 +295,10 @@ void merge(int arr[], int l, int m, int r) {
         j++;
         k++;
     }
+
+    // 동적 할당 해제
+    free(L);
+    free(R);
 }
 
 void mergeSort(int arr[], int l, int r) {
