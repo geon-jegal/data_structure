@@ -3,204 +3,19 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include "mergeSort.h"
 
-/*
-* int swapped = 1;
-* for (int i = 0; i < Linear_size - 1 && swapped; i++) {
-* swapped = 0;
-            for (int j = 0; j < Linear_size - i - 1; j++) {
-                if (Linear[j] > Linear[j + 1]) {
-                    // swap
-                    int temp = Linear[j];
-                    Linear[j] = Linear[j + 1];
-                    Linear[j + 1] = temp;
-                    swapped = 1;
-                }
-            }
-        }
-
-
-*/
-
-// 선택 정렬 함수
-void selectionSort(int arr[], int n) {
-    int i, j, minIndex, temp;
-
-    for (i = 0; i < n - 1; i++) {
-        // 현재 인덱스를 최소값으로 가정
-        minIndex = i;
-
-        // 최소값을 찾음
-        for (j = i + 1; j < n; j++) {
-            if (arr[j] < arr[minIndex]) {
-                minIndex = j;
-            }
-        }
-
-        // 최소값을 현재 위치와 교환
-        temp = arr[i];
-        arr[i] = arr[minIndex];
-        arr[minIndex] = temp;
-    }
-}
-
-// 삽입 정렬 함수
-void insertionSort(int arr[], int n) {
-    int i, key, j;
-    for (i = 1; i < n; i++) {
-        key = arr[i];
-        j = i - 1;
-
-        // key보다 큰 원소를 찾으면 그 원소를 오른쪽으로 이동
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            j = j - 1;
-        }
-
-        // key를 올바른 위치에 삽입
-        arr[j + 1] = key;
-    }
-}
-
-void Linear_b() {
-    srand(time(NULL));
-    //Linear Insert and Search
-    int Linear_size = 5000, random;
-    printf("Linear Sort(Bubble) :   ");
-    while (Linear_size <= 100000) {
-        int* Linear = (int*)malloc(sizeof(int) * Linear_size);
-        //삽입
-        for (int i = 0; i < Linear_size; i++) {
-            random = (rand() * rand()) % 50000;
-            // insert
-            Linear[i] = random;
-        }
-
-        // sort 시간
-        clock_t sort_start = clock();
-        for (int i = 0; i < Linear_size - 1; i++) {
-            for (int j = 0; j < Linear_size - i - 1; j++) {
-                if (Linear[j] > Linear[j + 1]) {
-                    // swap
-                    int temp = Linear[j];
-                    Linear[j] = Linear[j + 1];
-                    Linear[j + 1] = temp;
-                }
-            }
-        }
-        // sort 시간
-        clock_t sort_end = clock();
-        double sort = (double)(sort_end - sort_start) / CLOCKS_PER_SEC;
-
-        // sort 시간
-        clock_t sort_start2 = clock();
-        for (int i = 0; i < Linear_size - 1; i++) {
-            for (int j = 0; j < Linear_size - i - 1; j++) {
-                if (Linear[j] > Linear[j + 1]) {
-                    // swap
-                    int temp = Linear[j];
-                    Linear[j] = Linear[j + 1];
-                    Linear[j + 1] = temp;
-                }
-            }
-        }
-        // sort 시간
-        clock_t sort_end2 = clock();
-        double sort2 = (double)(sort_end2 - sort_start2) / CLOCKS_PER_SEC;
-
-        // 출력
-        printf("\n%11lf, %11lf", sort, sort2);
-
-        free(Linear);
-
-        Linear_size += 10000;
-    }
-}
-
-void Linear_s() {
-    srand(time(NULL));
-    //Linear Insert and Search
-    int Linear_size = 5000, random;
-    printf("Linear Sort(Selection) :    ");
-    while (Linear_size <= 100000) {
-        int* Linear = (int*)malloc(sizeof(int) * Linear_size);
-        //삽입
-        for (int i = 0; i < Linear_size; i++) {
-            random = (rand() * rand()) % 50000;
-            // insert
-            Linear[i] = random;
-        }
-
-        // sort 시간
-        clock_t sort_start = clock();
-        selectionSort(Linear, Linear_size);
-        // sort 시간
-        clock_t sort_end = clock();
-        double sort = (double)(sort_end - sort_start) / CLOCKS_PER_SEC;
-
-        // sort 시간
-        clock_t sort_start2 = clock();
-        selectionSort(Linear, Linear_size);
-        // sort 시간
-        clock_t sort_end2 = clock();
-        double sort2 = (double)(sort_end2 - sort_start2) / CLOCKS_PER_SEC;
-
-        // 출력
-        printf("\n%11lf, %11lf", sort, sort2);
-
-        free(Linear);
-
-        Linear_size += 10000;
-    }
-}
-
-void Linear_i() {
-    srand(time(NULL));
-    //Linear Insert and Search
-    int Linear_size = 5000, random;
-    printf("Linear Sort(Insert) :   ");
-    while (Linear_size <= 100000) {
-        int* Linear = (int*)malloc(sizeof(int) * Linear_size);
-        //삽입
-        for (int i = 0; i < Linear_size; i++) {
-            random = (rand() * rand()) % 50000;
-            // insert
-            Linear[i] = random;
-        }
-
-        // sort 시간
-        clock_t sort_start = clock();
-        insertionSort(Linear, Linear_size);
-        // sort 시간
-        clock_t sort_end = clock();
-        double sort = (double)(sort_end - sort_start) / CLOCKS_PER_SEC;
-
-        // sort 시간
-        clock_t sort_start2 = clock();
-        insertionSort(Linear, Linear_size);
-        // sort 시간
-        clock_t sort_end2 = clock();
-        double sort2 = (double)(sort_end2 - sort_start2) / CLOCKS_PER_SEC;
-
-        // 출력
-        printf("\n%11lf, %11lf", sort, sort2);
-
-        free(Linear);
-
-        Linear_size += 10000;
-    }
-}
-
+// 두 정수의 위치를 바꾸는 함수
 void swap(int* a, int* b) {
     int t = *a;
     *a = *b;
     *b = t;
 }
 
-// 퀵 정렬
+// 퀵 정렬을 위한 파티션 함수
 int partition(int arr[], int low, int high) {
     int pivot = arr[high];
-    int i = (low - 1);
+    int i = low - 1;
 
     for (int j = low; j <= high - 1; j++) {
         if (arr[j] < pivot) {
@@ -213,6 +28,7 @@ int partition(int arr[], int low, int high) {
     return (i + 1);
 }
 
+// 퀵 정렬 함수
 void quickSort(int arr[], int low, int high) {
     if (low < high) {
         int pi = partition(arr, low, high);
@@ -222,7 +38,44 @@ void quickSort(int arr[], int low, int high) {
     }
 }
 
-// 힙 정렬
+// 퀵 정렬 함수
+void Linear_q() {
+    srand(time(NULL));
+    int Linear_size = 5000, random;
+
+    printf("Linear Sort(Quick) :   ");
+    while (Linear_size <= 100000) {
+        int* Linear = (int*)malloc(sizeof(int) * Linear_size);
+
+        // 데이터 삽입
+        for (int i = 0; i < Linear_size; i++) {
+            random = (rand() * rand()) % 50000;
+            // 삽입
+            Linear[i] = random;
+        }
+
+        // 정렬 시간 측정
+        clock_t sort_start = clock();
+        quickSort(Linear, 0, Linear_size - 1);
+        clock_t sort_end = clock();
+        double sort = (double)(sort_end - sort_start) / CLOCKS_PER_SEC;
+
+        // 정렬 시간 측정 (두 번째 실행)
+        clock_t sort_start2 = clock();
+        quickSort(Linear, 0, Linear_size - 1);
+        clock_t sort_end2 = clock();
+        double sort2 = (double)(sort_end2 - sort_start2) / CLOCKS_PER_SEC;
+
+        // 결과 출력
+        printf("\n%11lf, %11lf", sort, sort2);
+
+        free(Linear);
+
+        Linear_size += 10000;
+    }
+}
+
+// 힙 정렬을 위한 힙화 함수
 void heapify(int arr[], int n, int i) {
     int largest = i;
     int left = 2 * i + 1;
@@ -242,6 +95,7 @@ void heapify(int arr[], int n, int i) {
     }
 }
 
+// 힙 정렬 함수
 void heapSort(int arr[], int n) {
     for (int i = n / 2 - 1; i >= 0; i--) {
         heapify(arr, n, i);
@@ -253,67 +107,57 @@ void heapSort(int arr[], int n) {
     }
 }
 
-// 병합 정렬
-void merge(int arr[], int l, int m, int r) {
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
+// 힙 정렬 함수
+void Linear_h() {
+    srand(time(NULL));
+    int Linear_size = 5000, random;
 
-    // 동적 할당
-    int* L = (int*)malloc(n1 * sizeof(int));
-    int* R = (int*)malloc(n2 * sizeof(int));
+    printf("Linear Sort(Heap) :   ");
+    while (Linear_size <= 100000) {
+        int* Linear = (int*)malloc(sizeof(int) * Linear_size);
 
-
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
-
-    i = 0;
-    j = 0;
-    k = l;
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
+        // 데이터 삽입
+        for (int i = 0; i < Linear_size; i++) {
+            random = (rand() * rand()) % 50000;
+            // 삽입
+            Linear[i] = random;
         }
-        else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
 
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
+        // 정렬 시간 측정
+        clock_t sort_start = clock();
+        heapSort(Linear, Linear_size);
+        clock_t sort_end = clock();
+        double sort = (double)(sort_end - sort_start) / CLOCKS_PER_SEC;
 
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
+        // 정렬 시간 측정 (두 번째 실행)
+        clock_t sort_start2 = clock();
+        heapSort(Linear, Linear_size);
+        clock_t sort_end2 = clock();
+        double sort2 = (double)(sort_end2 - sort_start2) / CLOCKS_PER_SEC;
 
-    // 동적 할당 해제
-    free(L);
-    free(R);
-}
+        // 결과 출력
+        printf("\n%11lf, %11lf", sort, sort2);
 
-void mergeSort(int arr[], int l, int r) {
-    if (l < r) {
-        int m = l + (r - l) / 2;
+        free(Linear);
 
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
-
-        merge(arr, l, m, r);
+        Linear_size += 10000;
     }
 }
 
 // 메인 함수
 int main() {
+    int i = 0;
+    int a[10] = { 14, 12, 5, 1, 17, 7, 20, 30, 19, 88 };
+
+    printf("병합 정렬 전\n");
+    while (i <= 9) {
+        printf("%d ", a[i]);
+        i++;
+    }
+    printf("\n병합 졍렬 시작\n");
+    mergeSort_i(a, 0, 9);
+    //Linear_m();  // 병합 정렬
+    //printf("\n");
 
     return 0;
 }
